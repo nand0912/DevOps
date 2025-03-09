@@ -2,12 +2,6 @@
 # CREATE AN S3 BUCKET AND DYNAMODB TABLE TO USE AS A TERRAFORM BACKEND
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# ----------------------------------------------------------------------------------------------------------------------
-# REQUIRE A SPECIFIC TERRAFORM VERSION OR HIGHER
-# This module has been updated with 0.12 syntax, which means it is no longer compatible with any versions below 0.12.
-# This module is forked from https://github.com/gruntwork-io/intro-to-terraform/tree/master/s3-backend
-# ----------------------------------------------------------------------------------------------------------------------
-
 terraform {
   required_version = ">= 0.12"
 }
@@ -19,7 +13,7 @@ terraform {
 provider "aws" {}
 
 # ------------------------------------------------------------------------------
-# CREATE THE S3 BUCKET
+# CREATING AWS DATA SOURCE FOR OUTPUT
 # ------------------------------------------------------------------------------
 
 data "aws_caller_identity" "current" {}
@@ -27,6 +21,10 @@ data "aws_caller_identity" "current" {}
 locals {
   account_id    = data.aws_caller_identity.current.account_id
 }
+
+# ------------------------------------------------------------------------------
+# CREATE THE S3 BUCKET
+# ------------------------------------------------------------------------------
 
 resource "aws_s3_bucket" "terraform_state" {
   # With account id, this S3 bucket names can be *globally* unique.
